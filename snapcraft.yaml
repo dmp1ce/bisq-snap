@@ -1,0 +1,48 @@
+name: bitsquare
+version: "master"
+summary: Peer-to-peer exchange to trade various curriencies for bitcoin
+description: |
+  Cross-platform desktop application that allows users to trade national currency (dollars, euros, etc) for bitcoin without relying on centralized exchanges
+confinement: devmode
+
+apps:
+  bitsquare:
+    command: bitsquare
+    plugs: [home, network, network-bind]
+
+parts:
+  bitsquare:
+    plugin: maven
+    maven-options:
+      - -DskipTests
+      - -Dmaven.javadoc.skip=true
+    source: https://github.com/bitsquare/bitsquare.git
+    build-packages: [openjfx]
+    stage-packages: [openjfx]
+    filesets:
+      jars:
+        - "*.jar"
+    stage:
+      - $jars
+    snap:
+      - $jars
+    after: [bitcoinj]
+
+  bitcoinj:
+    plugin: maven
+    maven-options:
+      - -DskipTests
+      - -Dmaven.javadoc.skip=true
+    source: https://github.com/bitsquare/bitcoinj.git
+    source-branch: FixBloomFilters
+    build-packages: [openjfx]
+    stage-packages: [openjfx]
+    filesets:
+      jars:
+        - core/target/*.jar
+    stage:
+      - $jars
+    snap:
+      - $jars
+        
+# vim:tabstop=2 shiftwidth=2 expandtab
