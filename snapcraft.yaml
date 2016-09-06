@@ -7,29 +7,26 @@ confinement: devmode
 
 apps:
   bitsquare:
-    command: bitsquare
+    command: usr/lib/jvm/java-8-openjdk-amd64/bin/java -Dsecurity.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider -jar $SNAP/gui/shaded.jar "$@"
     plugs: [home, network, network-bind]
 
 parts:
   bitsquare:
     plugin: maven
+    maven-targets:
+      - gui
     maven-options:
       - -DskipTests
       - -Dmaven.javadoc.skip=true
     source: https://github.com/bitsquare/bitsquare.git
     build-packages: [openjfx]
     stage-packages: [openjfx]
-    filesets:
-      jars:
-        - "*.jar"
-    stage:
-      - $jars
-    snap:
-      - $jars
     after: [bitcoinj]
 
   bitcoinj:
     plugin: maven
+    maven-targets:
+      - core
     maven-options:
       - -DskipTests
       - -Dmaven.javadoc.skip=true
@@ -37,12 +34,5 @@ parts:
     source-branch: FixBloomFilters
     build-packages: [openjfx]
     stage-packages: [openjfx]
-    filesets:
-      jars:
-        - core/target/*.jar
-    stage:
-      - $jars
-    snap:
-      - $jars
         
 # vim:tabstop=2 shiftwidth=2 expandtab
