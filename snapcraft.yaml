@@ -7,8 +7,8 @@ confinement: devmode
 
 apps:
   bitsquare:
-    command: usr/lib/jvm/java-8-openjdk-amd64/bin/java -Dsecurity.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider -jar $SNAP/gui/shaded.jar "$@"
-    plugs: [home, network, network-bind]
+    command: bin/wrapper.bash
+    plugs: [home, network, network-bind, x11]
 
 parts:
   bitsquare:
@@ -28,11 +28,21 @@ parts:
     maven-targets:
       - core
     maven-options:
+      - install
       - -DskipTests
       - -Dmaven.javadoc.skip=true
     source: https://github.com/bitsquare/bitcoinj.git
     source-branch: FixBloomFilters
     build-packages: [openjfx]
     stage-packages: [openjfx]
+
+  # It will copy wrapper.bash script into /bin/
+  # This script contains all the commands needed (sets env variables, launches the jar file...) to
+  # execute the application
+  exec:
+    plugin: dump
+    source: .
+    organize:
+      wrapper.bash: bin/wrapper.bash
         
 # vim:tabstop=2 shiftwidth=2 expandtab
