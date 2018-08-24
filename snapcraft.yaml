@@ -1,48 +1,42 @@
-name: bitsquare
+name: bisq-desktop
 version: "master"
 summary: Peer-to-peer exchange to trade various curriencies for bitcoin
 description: |
   Cross-platform desktop application that allows users to trade national currency (dollars, euros, etc) for bitcoin without relying on centralized exchanges
-confinement: devmode
+confinement: strict
+grade: stable
 
 apps:
-  bitsquare:
-    command: bin/wrapper.bash
+  bisq-desktop:
+    command: desktop-launch "$SNAP/opt/bisq/bin/bisq-desktop"
     plugs: [home, network, network-bind, x11]
 
 parts:
-  bitsquare:
-    plugin: maven
-    maven-targets:
-      - gui
-    maven-options:
-      - -DskipTests
-      - -Dmaven.javadoc.skip=true
-    source: https://github.com/bitsquare/bitsquare.git
+  bisq:
+    plugin: gradle
+    override-build: |
+      ./gradlew build
+
+      # Install executable.
+      install -d "${SNAPCRAFT_PART_INSTALL}/opt/bisq"
+      cp -r build/app/* "${SNAPCRAFT_PART_INSTALL}/opt/bisq"
+
+      # Install desktop launcher icon
+      install -Dm644 package/linux/icon.png "${SNAPCRAFT_PART_INSTALL}/usr/share/pixmaps/bisq.png"
+
+    source: https://github.com/bisq-network/bisq-desktop.git
+    source-tag: v0.8.0
     build-packages: [openjfx]
     stage-packages: [openjfx]
-    after: [bitcoinj]
+    after: [desktop-gtk3]
 
-  bitcoinj:
-    plugin: maven
-    maven-targets:
-      - core
-    maven-options:
-      - install
-      - -DskipTests
-      - -Dmaven.javadoc.skip=true
-    source: https://github.com/bitsquare/bitcoinj.git
-    source-branch: FixBloomFilters
-    build-packages: [openjfx]
-    stage-packages: [openjfx]
-
-  # It will copy wrapper.bash script into /bin/
-  # This script contains all the commands needed (sets env variables, launches the jar file...) to
-  # execute the application
-  exec:
+  # Install desktop launcher
+  desktop-file:
     plugin: dump
     source: .
     organize:
-      wrapper.bash: bin/wrapper.bash
+      'desktop.bisq': usr/share/applications/bisq.desktop
+    after:
+      - bisq
         
 # vim:tabstop=2 shiftwidth=2 expandtab
