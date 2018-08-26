@@ -11,6 +11,7 @@ apps:
   bisq-desktop:
     command: desktop-launch "$SNAP/opt/bisq/bin/bisq-desktop"
     plugs: [home, network, network-bind, x11]
+    desktop: usr/share/applications/bisq.desktop
 
 parts:
   bisq:
@@ -36,7 +37,7 @@ parts:
     plugin: dump
     source: .
     organize:
-      'desktop.bisq': usr/share/applications/bisq.desktop
+      'bisq.desktop': usr/share/applications/bisq.desktop
     after:
       - bisq
         
