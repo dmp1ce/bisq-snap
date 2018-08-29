@@ -5,7 +5,7 @@ description: |
   Cross-platform desktop application that allows users to trade national currency (dollars, euros, etc) for bitcoin without relying on centralized exchanges
 confinement: strict
 grade: stable
-icon: prime/usr/share/pixmaps/bisq.png
+icon: icon.png
 
 apps:
   bisq-desktop:
