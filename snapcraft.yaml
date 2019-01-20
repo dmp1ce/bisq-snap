@@ -1,17 +1,33 @@
 name: bisq-desktop
-version: 0.8.0
+base: core18
+version: 0.9.3
 summary: Peer-to-peer exchange to trade various curriencies for bitcoin
 description: |
   Cross-platform desktop application that allows users to trade national currency (dollars, euros, etc) for bitcoin without relying on centralized exchanges
-confinement: strict
+confinement: classic  # Most will not be able to use personal-files interface until snap version 2.37+ more widely available
 grade: stable
 icon: icon.png
+
+plugs:
+  personal-files:
+    write: [ $HOME/.local/share/Bisq ]
+    read:  [ $HOME/.local/share/Bisq ]
 
 apps:
   bisq-desktop:
     command: desktop-launch "$SNAP/opt/bisq/bin/bisq-desktop"
-    plugs: [home, network, network-bind, x11]
+    plugs:
+      - network
+      - network-bind
+      - desktop
+      - desktop-legacy
+      - x11
+      - wayland
+      - home
+      - personal-files
     desktop: usr/share/applications/bisq.desktop
+    environment:
+      JAVA_HOME: "$SNAP/usr/lib/jvm/java-11-openjdk-amd64"
 
 parts:
   bisq:
@@ -21,15 +37,15 @@ parts:
 
       # Install executable.
       install -d "${SNAPCRAFT_PART_INSTALL}/opt/bisq"
-      cp -r build/app/* "${SNAPCRAFT_PART_INSTALL}/opt/bisq"
+      cp -r desktop/build/app/* "${SNAPCRAFT_PART_INSTALL}/opt/bisq"
 
       # Install desktop launcher icon
-      install -Dm644 package/linux/icon.png "${SNAPCRAFT_PART_INSTALL}/usr/share/pixmaps/bisq.png"
+      install -Dm644 desktop/package/linux/icon.png "${SNAPCRAFT_PART_INSTALL}/usr/share/pixmaps/bisq.png"
 
     source: https://github.com/bisq-network/bisq-desktop.git
-    source-tag: v0.8.0
-    build-packages: [openjfx]
-    stage-packages: [openjfx]
+    source-tag: v0.9.3
+    build-packages: [openjdk-11-jdk]
+    stage-packages: [openjdk-11-jre]
     after: [desktop-gtk3]
 
   # Install desktop launcher
@@ -40,5 +56,31 @@ parts:
       'bisq.desktop': usr/share/applications/bisq.desktop
     after:
       - bisq
+
+  desktop-gtk3:
+    source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
+    source-subdir: gtk
+    plugin: make
+    make-parameters: ["FLAVOR=gtk3"]
+    build-packages:
+      - libgtk-3-dev
+    stage-packages:
+      - libxkbcommon0  # XKB_CONFIG_ROOT
+      - ttf-ubuntu-font-family
+      - dmz-cursor-theme
+      - light-themes
+      - adwaita-icon-theme
+      - gnome-themes-standard
+      - shared-mime-info
+      - libgtk-3-0
+      - libgdk-pixbuf2.0-0
+      - libglib2.0-bin
+      - libgtk-3-bin
+      - unity-gtk3-module
+      - libappindicator3-1
+      - locales-all
+      - xdg-user-dirs
+      - ibus-gtk3
+      - libibus-1.0-5
         
 # vim:tabstop=2 shiftwidth=2 expandtab
