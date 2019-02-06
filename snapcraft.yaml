@@ -8,10 +8,6 @@ confinement: strict
 grade: stable
 icon: icon.png
 
-plugs:
-  personal-files:
-    write: [ $HOME/.local/share/Bisq ]
-
 apps:
   bisq-desktop:
     command: desktop-launch "$SNAP/opt/bisq/bin/bisq-desktop"
@@ -23,13 +19,10 @@ apps:
       - x11
       - wayland
       - home
-      - personal-files
     desktop: usr/share/applications/bisq.desktop
     environment:
       JAVA_HOME: "$SNAP/usr/lib/jvm/java-11-openjdk-amd64"
       JAVA_TOOL_OPTIONS: "-Duser.home=$SNAP_USER_COMMON"
-  connect-home-directory:
-    command: bisq-desktop-snap-connect
 
 parts:
   bisq:
@@ -50,13 +43,12 @@ parts:
     stage-packages: [openjdk-11-jre]
     after: [desktop-gtk3]
 
-  # Install desktop launcher and connecter script
+  # Install desktop launcher
   launchers:
     plugin: dump
     source: .
     organize:
       'bisq.desktop': usr/share/applications/bisq.desktop
-      'bisq-desktop-snap-connect.sh': bin/bisq-desktop-snap-connect
     after:
       - bisq
 
