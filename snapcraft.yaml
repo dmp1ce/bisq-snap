@@ -4,14 +4,13 @@ version: 0.9.3
 summary: Peer-to-peer exchange to trade various curriencies for bitcoin
 description: |
   Cross-platform desktop application that allows users to trade national currency (dollars, euros, etc) for bitcoin without relying on centralized exchanges
-confinement: classic  # Most will not be able to use personal-files interface until snap version 2.37+ more widely available
+confinement: strict
 grade: stable
 icon: icon.png
 
 plugs:
   personal-files:
     write: [ $HOME/.local/share/Bisq ]
-    read:  [ $HOME/.local/share/Bisq ]
 
 apps:
   bisq-desktop:
@@ -28,6 +27,9 @@ apps:
     desktop: usr/share/applications/bisq.desktop
     environment:
       JAVA_HOME: "$SNAP/usr/lib/jvm/java-11-openjdk-amd64"
+      JAVA_TOOL_OPTIONS: "-Duser.home=$SNAP_USER_COMMON"
+  connect-home-directory:
+    command: bisq-desktop-snap-connect
 
 parts:
   bisq:
@@ -48,12 +50,13 @@ parts:
     stage-packages: [openjdk-11-jre]
     after: [desktop-gtk3]
 
-  # Install desktop launcher
-  desktop-file:
+  # Install desktop launcher and connecter script
+  launchers:
     plugin: dump
     source: .
     organize:
       'bisq.desktop': usr/share/applications/bisq.desktop
+      'bisq-desktop-snap-connect.sh': bin/bisq-desktop-snap-connect
     after:
       - bisq
 
