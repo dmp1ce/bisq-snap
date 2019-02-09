@@ -10,7 +10,7 @@ icon: icon.png
 
 apps:
   bisq-desktop:
-    command: desktop-launch "$SNAP/opt/bisq/bin/bisq-desktop"
+    command: desktop-launch "$SNAP/opt/Bisq/Bisq"
     plugs:
       - network
       - network-bind
@@ -26,20 +26,9 @@ apps:
 
 parts:
   bisq:
-    plugin: gradle
-    override-build: |
-      ./gradlew build
-
-      # Install executable.
-      install -d "${SNAPCRAFT_PART_INSTALL}/opt/bisq"
-      cp -r desktop/build/app/* "${SNAPCRAFT_PART_INSTALL}/opt/bisq"
-
-      # Install desktop launcher icon
-      install -Dm644 desktop/package/linux/icon.png "${SNAPCRAFT_PART_INSTALL}/usr/share/pixmaps/bisq.png"
-
-    source: https://github.com/bisq-network/bisq-desktop.git
-    source-tag: v0.9.3
-    build-packages: [openjdk-11-jdk]
+    plugin: dump
+    source: https://github.com/bisq-network/bisq/releases/download/v0.9.3/Bisq-64bit-0.9.3.deb
+    source-checksum: sha256/4a3cdc352c5eaa74b9418c2a407984c90c3dfc8150dd197bae4999f863cf6263
     stage-packages: [openjdk-11-jre]
     after: [desktop-gtk3]
 
@@ -77,5 +66,5 @@ parts:
       - xdg-user-dirs
       - ibus-gtk3
       - libibus-1.0-5
-        
+
 # vim:tabstop=2 shiftwidth=2 expandtab
