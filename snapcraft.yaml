@@ -29,7 +29,11 @@ parts:
     plugin: dump
     source: https://github.com/bisq-network/bisq/releases/download/v0.9.3/Bisq-64bit-0.9.3.deb
     source-checksum: sha256/4a3cdc352c5eaa74b9418c2a407984c90c3dfc8150dd197bae4999f863cf6263
-    stage-packages: [openjdk-11-jre]
+    stage-packages:
+      - libgl1
+      - libglx0
+      - libxtst6
+      - libxxf86vm1
     after: [desktop-gtk3]
 
   # Install desktop launcher
