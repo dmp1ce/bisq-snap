@@ -19,6 +19,7 @@ apps:
       - x11
       - wayland
       - home
+      - gsettings
     desktop: usr/share/applications/bisq.desktop
     environment:
       JAVA_HOME: "$SNAP/usr/lib/jvm/java-11-openjdk-amd64"
