@@ -20,6 +20,8 @@ apps:
       - wayland
       - home
       - gsettings
+      - camera
+      - opengl
     desktop: usr/share/applications/bisq.desktop
     environment:
       JAVA_HOME: "$SNAP/usr/lib/jvm/java-11-openjdk-amd64"
@@ -35,6 +37,7 @@ parts:
       - libglx0
       - libxtst6
       - libxxf86vm1
+      - libv4l-0
     after: [desktop-gtk3]
 
   # Install desktop launcher
