@@ -1,6 +1,6 @@
 name: bisq-desktop
 base: core18
-version: 0.9.3
+version: 0.9.4
 summary: Peer-to-peer exchange to trade various curriencies for bitcoin
 description: |
   Cross-platform desktop application that allows users to trade national currency (dollars, euros, etc) for bitcoin without relying on centralized exchanges
@@ -30,8 +30,8 @@ apps:
 parts:
   bisq:
     plugin: dump
-    source: https://github.com/bisq-network/bisq/releases/download/v0.9.3/Bisq-64bit-0.9.3.deb
-    source-checksum: sha256/4a3cdc352c5eaa74b9418c2a407984c90c3dfc8150dd197bae4999f863cf6263
+    source: https://github.com/bisq-network/bisq/releases/download/v0.9.4/Bisq-64bit-0.9.4.deb
+    source-checksum: sha256/1bb76cdf6add31e5912b0cd7a2b65ccb038462d3349b34f4bb668ef55c0f8f00
     stage-packages:
       - libgl1
       - libglx0
