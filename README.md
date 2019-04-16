@@ -6,9 +6,9 @@ The purpose of the Bisq snap is to make it easier for users to get started with 
 
 # Security Concerns
 
-When using any snap, the user is trusting BOTH the builder of the snap and the publisher of the snap. I provide checksums and signature files for the Bisq snap so the publisher doesn't need to be trusted, but the builder still needs to be trusted. Cononical will provide a build service so they will build the Bisq snap and at that point trust is only with Cononical.
+When using any snap, the user is trusting BOTH the builder of the snap and the publisher of the snap. This snap relies on Cononical to BOTH build the snap and publish the snap. You only trust this repository in so far as you trust that the `snapcraft.yaml` file is correctly configured.
 
-To reduce the need for trust in both the builder and publisher, I provide the build and install steps below. Also look at the [Bisq release](https://github.com/bisq-network/bisq/releases) page which provides additional ways to install Bisq.
+To reduce the need for trust in both the builder and publisher, the build and install steps are provided below.
 
 ## Automatic updates
 
@@ -19,10 +19,6 @@ I would at this point recommend turning off automatic updates if concerned, howe
 # Install from Snapcraft store
 
 From the command line, `snap install bisq-desktop` will install the Bisq snap from the Snapcraft store.
-
-## Verify checksum
-
-After installing from the Snapcraft store, the snap files are stored in `/var/lib/snapd/snaps`. Run `sha256sum /var/lib/snapd/snaps/bisq-desktop_REVISION.snap` to see if the hash is the same as posted in the releases page.
 
 # Build
 
@@ -44,4 +40,4 @@ Simply run `snapcraft` in the root of this repository to build the snap.
 
 The Bisq snap can be installed from the store or directly from the `.snap` file. Only installing through the store will provide automatic updates.
 
-After building, running `snap install bisq-desktop_0.9.3_amd64.snap --dangerous` will install the snap.
+After building, running `snap install bisq-desktop_${my_version}_amd64.snap --dangerous` will install the snap. Where `${my_version}` is the version built, for example `1.0.1`.
