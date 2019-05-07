@@ -31,7 +31,7 @@ parts:
   bisq:
     plugin: dump
     source: https://github.com/bisq-network/bisq/releases/download/v1.1.1/Bisq-64bit-1.1.1.deb
-    source-checksum: sha256/e82f1162dccd206410ca7966ed438eb5dd56127f01f2b6d6ad7486268c79bf79
+    source-checksum: sha256/515abb2e02ee47cba63641016ce97244a08e5c99f3be5d4fb492ab50f4c1b462
     stage-packages:
       - libgl1
       - libglx0
