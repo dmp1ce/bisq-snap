@@ -38,6 +38,8 @@ parts:
       - libxtst6
       - libxxf86vm1
       - libv4l-0
+      - libasound2
+      - ffmpeg
     after: [desktop-gtk3]
 
   # Install desktop launcher
@@ -74,5 +76,8 @@ parts:
       - xdg-user-dirs
       - ibus-gtk3
       - libibus-1.0-5
+      - libgtk2.0-0
+      - libglu1-mesa
+      - ffmpeg
 
 # vim:tabstop=2 shiftwidth=2 expandtab
