@@ -41,8 +41,10 @@ parts:
       - libxxf86vm1
       - libv4l-0
       - libasound2
-      - ffmpeg
-    after: [desktop-gtk3]
+      - freeglut3
+      - libgtk2.0-0
+      - libavcodec57
+      - libavformat57
 
   # Install desktop launcher
   launchers:
