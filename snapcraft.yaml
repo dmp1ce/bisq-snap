@@ -27,7 +27,7 @@ apps:
     desktop: usr/share/applications/bisq.desktop
     environment:
       JAVA_HOME: "$SNAP/usr/lib/jvm/java-11-openjdk-amd64"
-      JAVA_TOOL_OPTIONS: "-Duser.home=$SNAP_USER_COMMON"
+      JAVA_TOOL_OPTIONS: "-Duser.home=$SNAP_USER_COMMON -Djdk.gtk.version=2"
 
 parts:
   bisq:
